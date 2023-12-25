@@ -1,0 +1,201 @@
+#include <iostream>
+#include <memory>
+
+class A{
+  int* data;
+
+public:
+A(){
+  std::cout << "자원을 획득함!" << std::endl;
+  data = new int[100];
+}
+
+void some() {std::cout << "일반 포인터와 동일하게 사용가능!" <<std::endl;}
+
+~A(){
+  std::cout << "자원을 해제함" <<std::endl;
+  delete[] data;
+}
+};
+
+void do_something(){
+  std::unique_ptr<A> pa(new A());
+  pa->some();
+
+  //std::unique_ptr<A> pb = pa;
+}
+
+int main(){do_something();}
+//============================================================================
+
+#include <iostream>
+#include <memory>
+
+class A{
+  int* data;
+
+public:
+A(){
+  std::cout << "자원을 획득함!" << std::endl;
+  data = new int[100];
+}
+
+void some() {std::cout << "일반 포인터와 동일하게 사용가능!" <<std::endl;}
+
+~A(){
+  std::cout << "자원을 해제함" <<std::endl;
+  delete[] data;
+}
+};
+
+void do_something(){
+  std::unique_ptr<A> pa(new A());
+
+  std::cout << "pa : ";
+  pa->some();
+
+std::unique_ptr<A> pb = std::move(pa);
+  std::cout << "pb : ";
+  pb->some();
+}
+
+int main(){do_something();}
+
+//============================================================================
+#include <iostream>
+#include <memory>
+
+class A{
+  int* data;
+
+public:
+A(){
+  std::cout << "자원을 획득함!" << std::endl;
+  data = new int[100];
+}
+
+void some() {std::cout << "일반 포인터와 동일하게 사용가능!" <<std::endl;}
+
+void do_sth(int a){
+  std::cout << "무언가를 한다!" << std::endl;
+  data[0] = a;
+  }
+~A(){
+  std::cout << "자원을 해제함" <<std::endl;
+  delete[] data;
+}
+};
+
+
+//
+void do_something(std::unique_ptr<A>& ptr) {ptr->do_sth(3);}
+
+
+
+
+int main(){
+std::unique_ptr<A> pa(new A());
+do_something(pa);
+}
+//============================================================================
+#include <iostream>
+#include <memory>
+
+class A{
+  int* data;
+
+public:
+A(){
+  std::cout << "자원을 획득함!" << std::endl;
+  data = new int[100];
+}
+
+void some() {std::cout << "일반 포인터와 동일하게 사용가능!" <<std::endl;}
+
+void do_sth(int a){
+  std::cout << "무언가를 한다!" << std::endl;
+  data[0] = a;
+  }
+
+~A(){
+  std::cout << "자원을 해제함" <<std::endl;
+  delete[] data;
+}
+};
+
+
+//
+void do_something(A* ptr) {ptr->do_sth(3);}
+
+int main(){
+std::unique_ptr<A> pa(new A());
+do_something(pa.get());
+}
+
+//============================================================================
+#include <iostream>
+#include<memory>
+
+class Foo{
+int a,b;
+
+public:
+Foo(int a,int b):a(a),b(b){std::cout << "생성자 호출!" << std::endl;}
+void print(){std::cout << "a : " << a << ", b :" << b << std::endl;}
+~Foo(){std::cout << "소멸자 호출!" << std::endl;}
+
+};
+
+int main(){
+  auto ptr = std::make_unique<Foo>(3, 5);
+  ptr->print();
+}
+
+//============================================================================
+
+#include <iostream>
+#include<memory>
+#include<vector>
+
+
+class A{
+  int *data;
+
+public:
+A(int i) {
+  std::cout << "자원을 획득함!" << std::endl;
+  data = new int[100];
+  data[0] = i;
+}
+
+void some(){
+  std::cout << "값: " << data[0] << std::endl;}
+
+  ~A(){
+    std::cout << "자원을 해제함!" << std::endl;
+    delete[] data;
+  }
+};
+
+int main(){
+  std::vector<std::unique_ptr<A>> vec;
+
+  vec.emplace_back(new A(1));
+
+  vec.back() -> some();
+}
+
+//============================================================================
+//============================================================================
+//============================================================================
+//============================================================================
+//============================================================================
+//============================================================================
+//============================================================================
+//============================================================================
+//============================================================================
+//============================================================================
+//============================================================================
+
+
+
